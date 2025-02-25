@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quienes Somos - Black Panther</title>
+    <style>
+        :root {
+            --purple-primary: #8B5CF6;
+            --purple-dark: #6D28D9;
+            --purple-light: #A78BFA;
+            --bg-dark: #111111;
+            --bg-darker: #000000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-darker);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: rgba(0, 0, 0, 0.95);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--purple-primary);
+        }
+
+        nav .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        nav .logo {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        nav .brand {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .team-container {
+            padding: 120px 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        .team-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--purple-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            background: rgba(17, 17, 17, 0.8);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .member-details {
+            padding: 1.5rem;
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            color: var(--purple-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            font-size: 1.1rem;
+            color: #e5e5e5;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .member-description {
+            color: #e5e5e5;
+        }
+
+        .about-banner {
+            background: linear-gradient(45deg, var(--purple-dark), var(--purple-primary));
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .banner-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .banner-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        footer {
+            background: var(--bg-dark);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-top: 2px solid var(--purple-primary);
+            margin-top: auto;
+        }
+
+        /* Nuevos estilos para los botones de música */
+        .music-button {
+            background-color: var(--purple-primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .music-button:hover {
+            background-color: var(--purple-dark);
+        }
+
+        .music-button i {
+            font-size: 1.2rem;
+        }
+
+        .music-button.playing {
+            background-color: #10B981;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                right: 1rem;
+                top: 1rem;
+            }
+
+            nav .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+            }
+
+            nav .nav-links.active {
+                display: flex;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+                padding: 0.5rem;
+                gap: 1.5rem;
+            }
+
+            .about-banner {
+                padding: 2rem 1rem;
+            }
+
+            .team-container {
+                padding: 100px 1rem 2rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            nav .nav-links {
+                margin-top: 0;
+            }
+        }
+    </style>
+    <!-- Añadimos Font Awesome para íconos de música -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo-container">
+            <img src="bp.jpg" alt="Logo" class="logo"/>
+            <span class="brand">Black Panther</span>
+        </div>
+        <div class="menu-toggle">☰</div>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="index.html#about">Quienes Somos</a>
+            <a href="index.html#portfolio">Productos</a>
+            <a href="index.html#instructions">Instrucciones</a>
+            <a href="pagos.html">Metodos de pagos</a>
+            <a href="tienda.html">Comprar</a>
+        </div>
+    </nav>
+
+    <div class="team-container">
+        <h1 class="team-title">Nuestro Equipo</h1>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="dabir.jpg" alt="Dabir" class="member-image">
+                <div class="member-details">
+                    <h2 class="member-name">Dabir</h2>
+                    <p class="member-role">CEO / CHEF</p>
+                    <p class="member-description">El es, el que cocina y es admin</p>
+                    <button class="music-button" data-audio="dabir-music.mp3">
+                        <i class="fas fa-play"></i> Escuchar música
+                    </button>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <img src="carlos1.jpg" alt="Carlos" class="member-image">
+                <div class="member-details">
+                    <h2 class="member-name">Carlos Contreras</h2>
+                    <p class="member-role">CEO / Developer y marketing</p>
+                    <p class="member-description">Encargado de marketing y desarrollo web</p>
+                    <button class="music-button" data-audio="carlos-music.mp3">
+                        <i class="fas fa-play"></i> Escuchar música
+                    </button>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <img src="keiner.png" alt="Keiner" class="member-image">
+                <div class="member-details">
+                    <h2 class="member-name">Keiner Monterroza</h2>
+                    <p class="member-role">CEO / CHEF</p>
+                    <p class="member-description">Quizo ser admin pero el solo sirve en la cocina (cocina rico)</p>
+                    <button class="music-button" data-audio="keiner-music.mp3">
+                        <i class="fas fa-play"></i> Escuchar música
+                    </button>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <img src="Mateo.jpg" alt="Mateo" class="member-image">
+                <div class="member-details">
+                    <h2 class="member-name">Mateo Cavadia</h2>
+                    <p class="member-role">CEO / AGENTE DE VENTAS</p>
+                    <p class="member-description">Tambien quizo ser admin pero no lo dejamos</p>
+                    <button class="music-button" data-audio="mateo-music.mp3">
+                        <i class="fas fa-play"></i> Escuchar música
+                    </button>
+                </div>
+            </div>
+
+            <div class="team-member">
+                <img src="https://demofree.sirv.com/nope-not-here.jpgg" alt="Ana" class="member-image">
+                <div class="member-details">
+                    <h2 class="member-name">Ana Rojas</h2>
+                    <p class="member-role">CEO / AGENTE DE VENTAS</p>
+                    <p class="member-description">Solo quiere dinero</p>
+                    <button class="music-button" data-audio="ana-music.mp3">
+                        <i class="fas fa-play"></i> Escuchar música
+                    </button>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="juanjo.jpg" alt="juanjo" class="member-image">
+                <div class="member-details">
+                    <h2 class="member-name">Juan Pérez </h2>
+                    <p class="member-role">CEO / LOGISTICA Y REPARTO</p>
+                    <p class="member-description">El es el rappi </p>
+                    <button class="music-button" data-audio="juanjo-music.mp3">
+                        <i class="fas fa-play"></i> Escuchar música
+                    </button>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="luis.png" alt="Luis" class="member-image">
+                <div class="member-details">
+                    <h2 class="member-name">Luis Miranda</h2>
+                    <p class="member-role">CEO / REPRESENTANTE DE VENTAS</p>
+                    <p class="member-description">El, es el que vende</p>
+                    <button class="music-button" data-audio="luis-music.mp3">
+                        <i class="fas fa-play"></i> Escuchar música
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-banner">
+        <div class="banner-content">
+            <h2 class="banner-title">Sobre Black Panther</h2>
+            <p>Somos una empresa dedicada a crear las mejores micheladas artesanales, combinando tradición e innovación para ofrecer sabores únicos y experiencias inolvidables. Nuestro compromiso es brindar calidad y satisfacción en cada producto.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Black Panther Todos los derechos reservados.</p>
+    </footer>
+
+
+
+    <!-- Nuevos audios para cada miembro del equipo -->
+    <audio id="dabir-music" loop>
+        <source src="dabiraudio.unknown" type="audio/mpeg">
+    </audio>
+    <audio id="carlos-music" loop>
+        <source src="Amigos y enemigos (Version Almighty).mp3" type="audio/mpeg">
+    </audio>
+    <audio id="keiner-music" loop>
+        <source src="W & B.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="mateo-music" loop>
+        <source src="DFZM - AYY GONO [FREESTYLE].mp3" type="audio/mpeg">
+    </audio>
+    <audio id="ana-music" loop>
+        <source src="ana-music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="juanjo-music" loop>
+        <source src="Canserbero - Y la Felicidad Qué_ [Vida].mp3" type="audio/mpeg">
+    </audio>
+    <audio id="luis-music" loop>
+        <source src="BLESSDRYAN CASTROBRYANT MYERSHADES 66 PALABRAS SOBRAN REMIX (VIDEO OFICIAL).mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Variable para controlar si la música original está sonando
+        let musicaOriginalSonando = false;
+        
+        document.addEventListener("click", function() {
+            const musicaOriginal = document.getElementById("musica");
+            musicaOriginal.play();
+            musicaOriginalSonando = true;
+        }, { once: true });
+
+        // Nuevo script para los botones de música
+        const musicButtons = document.querySelectorAll('.music-button');
+        let currentlyPlaying = null;
+        const musicaOriginal = document.getElementById("musica");
+
+        musicButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const audioFile = this.getAttribute('data-audio');
+                const audioId = audioFile.split('.')[0];
+                const audioElement = document.getElementById(audioId);
+                
+                // Pausar la música original si está sonando
+                if (musicaOriginalSonando) {
+                    musicaOriginal.pause();
+                    musicaOriginalSonando = false;
+                }
+                
+                // Si hay otro audio del equipo reproduciéndose, pausarlo
+                if (currentlyPlaying && currentlyPlaying !== audioElement) {
+                    currentlyPlaying.pause();
+                    document.querySelector(`.music-button[data-audio="${currentlyPlaying.id}.mp3"]`).classList.remove('playing');
+                    document.querySelector(`.music-button[data-audio="${currentlyPlaying.id}.mp3"] i`).classList.remove('fa-pause');
+                    document.querySelector(`.music-button[data-audio="${currentlyPlaying.id}.mp3"] i`).classList.add('fa-play');
+                }
+                
+                // Reproducir o pausar el audio actual
+                if (audioElement.paused) {
+                    audioElement.play();
+                    this.classList.add('playing');
+                    this.querySelector('i').classList.remove('fa-play');
+                    this.querySelector('i').classList.add('fa-pause');
+                    currentlyPlaying = audioElement;
+                    this.textContent = '';
+                    this.appendChild(document.createElement('i')).classList.add('fas', 'fa-pause');
+                    this.append(' Pausar música');
+                } else {
+                    audioElement.pause();
+                    this.classList.remove('playing');
+                    this.querySelector('i').classList.remove('fa-pause');
+                    this.querySelector('i').classList.add('fa-play');
+                    currentlyPlaying = null;
+                    this.textContent = '';
+                    this.appendChild(document.createElement('i')).classList.add('fas', 'fa-play');
+                    this.append(' Escuchar música');
+                    
+                    // Si se pausa la música del miembro, reanudar la música original
+                    musicaOriginal.play();
+                    musicaOriginalSonando = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
